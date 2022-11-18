@@ -1,0 +1,1 @@
+# 2022-2E-Brnak-ArchitectureAPP
