@@ -34,7 +34,7 @@ void draw(){
   
   fill(204, 102, 0);
   stroke(204, 102, 0);
-  rect(100,50,0,0);
+  rect(0,0,0,100,50); //ZMĚNIL
   
    /*camera(30.0, mouseY, 220.0, // eyeX, eyeY, eyeZ
          0.0, 0.0, 0.0, // centerX, centerY, centerZ
@@ -48,9 +48,10 @@ void draw(){
      
      moveX = defaultX;
      moveY = defaultY;
+     //pridat moveZ = defaultZ;
      noFill();
      translate(defaultX, defaultY);
-    rect(box1,box1,box1,moveX,moveY);
+    rect(box1,box1,box1,moveX,moveY); //TAKHLE  rect(moveX,moveY,moveZ, box1, box1);
     if (mouseX < moveX && mouseX > moveX-box1 && mouseY > moveY && mouseY < moveY-box1 && mousePressed) {
       moveX += mouseX;
       moveY += mouseY;
