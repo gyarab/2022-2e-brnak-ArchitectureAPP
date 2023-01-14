@@ -3,15 +3,19 @@ package com.example.demo2;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.Event;
-import javafx.geometry.Point3D;
-import javafx.scene.Camera;
-import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
+import javafx.scene.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
@@ -19,11 +23,12 @@ import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Camera3D extends Application {
 
-    private static final int WIDTH = 1500;
-    private static final int HEIGHT = 800;
+    private static final float WIDTH = 2000;
+    private static final float HEIGHT = 1000;
 
     private double anchorX, anchorY;
     private double anchorAngleX = 0;
@@ -35,10 +40,12 @@ public class Camera3D extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        Sphere s1 = new Sphere(50);
+        Sphere s1 = prepareSphere();
         s1.translateXProperty().set(200);
+        s1.translateZProperty().set(-200);
 
-        Box b1 = new Box(80,50, 20);
+        Box box = prepareBox();
+
 
         Camera cm = new PerspectiveCamera(true);
 
@@ -48,22 +55,37 @@ public class Camera3D extends Application {
 
         //Transform tf = new Rotate(10, new Point3D(0,0,0));
         cm.setNearClip(1);
-        cm.setFarClip(1000);
+        cm.setFarClip(1500);
 
 
 
         SmartGroup sg [] = {new SmartGroup(), new SmartGroup()};
         sg[0].getChildren().addAll(cm);
-        sg[1].getChildren().addAll(s1, b1);
+        sg[1].getChildren().addAll(s1, box);
+
 
         Group gp = new Group();
         gp.getChildren().addAll(sg[0], sg[1]);
 
-        Scene scene = new Scene(gp, WIDTH, HEIGHT);
+
+        Button bt = new Button("Kurwa");
+        bt.setOnAction(actionEvent -> {
+
+            Box b = prepareBox();
+            sg[0].getChildren().addAll(b);
+        });
+        BorderPane bp = new BorderPane(gp);
+        bp.setLeft(bt);
+
+
+
+        Scene scene = new Scene(bp, WIDTH, HEIGHT);
         scene.setFill(Color.SILVER);
         scene.setCamera(cm);
 
-        initMouseControl( sg[1] , scene);
+
+
+        initMouseControl( sg[1] , scene, stage);
 
 
 
@@ -120,37 +142,60 @@ public class Camera3D extends Application {
             }
         });
 
-
-        stage.setTitle("Test!");
+        stage.setTitle("ArchitectureAPP");
         stage.setScene(scene);
         stage.show();
     }
 
-    private void initMouseControl(SmartGroup sg, Scene scene) {
-
-            Rotate xRotate;
-            Rotate yRotate;
-            sg.getTransforms().addAll(
-                    xRotate = new Rotate(0, Rotate.X_AXIS),
-                    yRotate = new Rotate(0, Rotate.Y_AXIS)
-            );
-            xRotate.angleProperty().bind(angleX);
-            yRotate.angleProperty().bind(angleY);
-
-            scene.setOnMousePressed(event -> {
-
-                anchorX = event.getSceneX();
-                anchorY = event.getSceneY();
-                anchorAngleX = angleX.get();
-                anchorAngleY = angleY.get();
-
-            });
-            scene.setOnMouseDragged(event -> {
-                angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
-                angleY.set(anchorAngleY + (anchorX - event.getSceneX()));
-            });
+    private Sphere prepareSphere() {
+        PhongMaterial material = new PhongMaterial();
+        material.setDiffuseMap(new Image(getClass().getResourceAsStream("/com/example/demo2/mramor.png")));
+        Sphere sp = new Sphere(80);
+        sp.setMaterial(material);
+        return sp;
     }
 
+    private Box prepareBox() {
+        PhongMaterial material = new PhongMaterial();
+        //material.setDiffuseColor(Color.MIDNIGHTBLUE);
+        material.setDiffuseMap(new Image(getClass().getResourceAsStream("/com/example/demo2/mramor.png")));
+        Box b1 = new Box(80,50, 20);
+        b1.setMaterial(material);
+        b1.translateZProperty().set(-200);
+        return b1;
+    }
+
+
+    private void initMouseControl(SmartGroup sg, Scene scene, Stage stage) {
+
+        Rotate xRotate;
+        Rotate yRotate;
+        sg.getTransforms().addAll(
+                xRotate = new Rotate(0, Rotate.X_AXIS),
+                yRotate = new Rotate(0, Rotate.Y_AXIS)
+        );
+        xRotate.angleProperty().bind(angleX);
+        yRotate.angleProperty().bind(angleY);
+
+        scene.setOnMousePressed(event -> {
+
+            anchorX = event.getSceneX();
+            anchorY = event.getSceneY();
+            anchorAngleX = angleX.get();
+            anchorAngleY = angleY.get();
+
+        });
+        scene.setOnMouseDragged(event -> {
+            angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
+            angleY.set(anchorAngleY + (anchorX - event.getSceneX()));
+        });
+
+        scene.addEventHandler(ScrollEvent.SCROLL, event ->{
+            double delta = event.getDeltaY();
+            sg.translateZProperty().set(sg.getTranslateZ() - delta);
+
+        });
+    }
 
 
     class SmartGroup extends Group{
