@@ -8,3 +8,5 @@ Zaklad info - http://www.java3d.org/czech.html
 Borec tutorialy na rotace kamera (dily 1-3)- https://www.youtube.com/watch?v=dNtZVVJ-lBg
         Dalsi dil mouse - https://www.youtube.com/watch?v=yinIKzg7duc = hototvo
         
+CSS a open window - https://edencoding.com/new-windows-stage/
+
