@@ -9,4 +9,4 @@ Borec tutorialy na rotace kamera (dily 1-3)- https://www.youtube.com/watch?v=dNt
         Dalsi dil mouse - https://www.youtube.com/watch?v=yinIKzg7duc = hototvo
         
 CSS a open window - https://edencoding.com/new-windows-stage/
-
+choicebox - https://jenkov.com/tutorials/javafx/choicebox.html
