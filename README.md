@@ -12,3 +12,6 @@ CSS a open window - https://edencoding.com/new-windows-stage/
 choicebox - https://jenkov.com/tutorials/javafx/choicebox.html 
           - https://www.tutorialspoint.com/example-to-set-action-listeners-behavior-to-a-choicebox-in-javafx
           
+          
+Background info - https://www.tabnine.com/code/java/methods/javafx.scene.layout.BorderPane/setBackground
+
