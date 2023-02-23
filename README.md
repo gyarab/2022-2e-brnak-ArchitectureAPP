@@ -14,4 +14,5 @@ choicebox - https://jenkov.com/tutorials/javafx/choicebox.html
           
           
 Background info - https://www.tabnine.com/code/java/methods/javafx.scene.layout.BorderPane/setBackground
+light info ke konci - https://www.youtube.com/watch?v=pW5pPHQ-tYk
 
