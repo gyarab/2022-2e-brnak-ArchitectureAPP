@@ -5,12 +5,8 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
-import javafx.geometry.Point3D;
 import javafx.scene.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
@@ -22,7 +18,6 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -39,15 +34,46 @@ public class Camera3D extends Application {
     private final DoubleProperty angleX = new SimpleDoubleProperty(0);
     private final DoubleProperty angleY = new SimpleDoubleProperty(0);
 
-    //Group gp = new Group();
+    java.net.URL logourl  = getClass().getResource("/com/example/demo2/Symbol.jpg");
 
     int pomocnahodnota = 0;
 
-    int Sphere = 1;
+    //tady jsou veci co borec zadava jakoze informace relocate kde a velikost
+    //Sphere
+    int v1;
+    int x11;
+    int y11;
+    int z11;
+
+    //Box
+    int x2;
+    int y2;
+    int z2;
+    int x22;
+    int y22;
+    int z22;
+
+    //cube
+    int x3;
+    int x33;
+    int y33;
+    int z33;
+
+    //Cylindr
+    int x4;
+    int y4;
+    int x44;
+    int y44;
+    int z44;
+
+    int Sphere = 0;
     int [] zaznamSphere = new int[1000];
     int Box = 0;
+    int [] zaznamBox = new int[1000];
     int Cube = 0;
+    int [] zaznamCube = new int[1000];
     int Cylindr = 0;
+    int [] zaznamCylindr = new int[1000];
 
     int pocetobjektu = 0;
 
@@ -63,8 +89,8 @@ public class Camera3D extends Application {
 
 
     SmartGroup sg  = new SmartGroup();
-
-    Button bt [] = {new Button(), new Button(), new Button(), new Button()};
+    
+    Button bt [] = {new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button()};
     Button btplusminus [] = {new Button(), new Button()};
     Button xyz [] = {new Button("X"), new Button("Y"), new Button("Z")};
     Button start = new Button("Start");
@@ -79,15 +105,19 @@ public class Camera3D extends Application {
 
     VBox v = new VBox();
 
+    HBox uvodh = new HBox();
+
     BorderPane bp = new BorderPane(sg);
 
-    //Scene uvodscene = new Scene();
+    Label lb = new Label("ArchitectureAPP");
+
+    Scene uvodscene = new Scene(uvodh, WIDTH, HEIGHT);
     Scene hlscene = new Scene(bp, WIDTH, HEIGHT);
     //Scene datascene =  new Scene(lb);
 
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws NullPointerException {
 
 
 
@@ -104,11 +134,10 @@ public class Camera3D extends Application {
 
         Box lineX = new Box(100, 2, 2);
         PhongMaterial material1 = new PhongMaterial();
-        material1.setDiffuseColor(Color.BLUE);
+        material1.setDiffuseColor(Color.RED);
         lineX.setMaterial(material1);
         lineX.translateXProperty().set(50);
-
-
+        
         Box lineY = new Box(2, 100, 2);
         PhongMaterial material2 = new PhongMaterial();
         material2.setDiffuseColor(Color.YELLOW);
@@ -117,11 +146,9 @@ public class Camera3D extends Application {
 
         Box lineZ = new Box(2,2,100);
         PhongMaterial material3 = new PhongMaterial();
-        material3.setDiffuseColor(Color.RED);
+        material3.setDiffuseColor(Color.BLUE);
         lineZ.setMaterial(material3);
         lineZ.translateZProperty().set(50);
-
-
 
 
 /*
@@ -136,9 +163,6 @@ public class Camera3D extends Application {
         cm.setFarClip(1500);
 
  */
-
-
-
 
 
 
@@ -158,6 +182,7 @@ public class Camera3D extends Application {
         bt[0].relocate(0,0);
         bt[0].setOnAction(actionEvent -> {
 
+            TextField tf = new TextField();
             Box b = prepareBox();
             sg.getChildren().addAll(b);
         });
@@ -189,16 +214,361 @@ public class Camera3D extends Application {
             sg.getChildren().addAll(c);
         });
 
+        bt[4].setText("X +");
+        bt[4].setPrefSize(60, 60);
+        bt[4].relocate(0, 700);
+        bt[4].setOnAction(actionEvent -> {
+            if (cisla[vybrano] == 1) {
+                pomocnahodnota = Sphere;
+                for (int i = 0; i <= Sphere; i++) {
+                    if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                x11 += 10;
+                spe.get(Sphere - pomocnahodnota).translateXProperty().set(x11);
+            }
 
+            else if (cisla[vybrano] == 2) {
+                pomocnahodnota = Box;
+                for (int i = 0; i <= Box; i++) {
+                    if (zaznamBox[vybrano] == zaznamBox[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+
+                x22 += 10;
+                b1.get(Box - pomocnahodnota).translateXProperty().set(x22);
+            }
+
+            else if (cisla[vybrano] == 3) {
+                pomocnahodnota = Cube;
+                for (int i = 0; i <= Cube; i++) {
+                    if (zaznamCube[vybrano] == zaznamCube[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                x33 += 10;
+                b2.get(Cube - pomocnahodnota).translateXProperty().set(x33);
+            }
+
+            else if (cisla[vybrano] == 4) {
+                pomocnahodnota = Cylindr;
+                for (int i = 0; i <= Cylindr; i++) {
+                    if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                x44 += 10;
+                cil.get(Cylindr - pomocnahodnota).translateXProperty().set(x44);
+            }
+        });
+
+        bt[5].setText("X -");
+        bt[5].setPrefSize(60, 60);
+        bt[5].relocate(0, 760);
+        bt[5].setOnAction(actionEvent -> {
+            if (cisla[vybrano] == 1) {
+                pomocnahodnota = Sphere;
+                for (int i = 0; i <= Sphere; i++) {
+                    if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                x11 -= 10;
+                spe.get(Sphere - pomocnahodnota).translateXProperty().set(x11);
+            }
+
+            else if (cisla[vybrano] == 2) {
+                pomocnahodnota = Box;
+                for (int i = 0; i <= Box; i++) {
+                    if (zaznamBox[vybrano] == zaznamBox[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+
+                x22 -= 10;
+                b1.get(Box - pomocnahodnota).translateXProperty().set(x22);
+            }
+
+            else if (cisla[vybrano] == 3) {
+                pomocnahodnota = Cube;
+                for (int i = 0; i <= Cube; i++) {
+                    if (zaznamCube[vybrano] == zaznamCube[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                x33 -= 10;
+                b2.get(Cube - pomocnahodnota).translateXProperty().set(x33);
+            }
+
+            else if (cisla[vybrano] == 4) {
+                pomocnahodnota = Cylindr;
+                for (int i = 0; i <= Cylindr; i++) {
+                    if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                x44 -= 10;
+                cil.get(Cylindr - pomocnahodnota).translateXProperty().set(x44);
+            }
+        });
+
+        bt[6].setText("Y +");
+        bt[6].setPrefSize(60, 60);
+        bt[6].relocate(60, 700);
+        bt[6].setOnAction(actionEvent -> {
+            if (cisla[vybrano] == 1) {
+                pomocnahodnota = Sphere;
+                for (int i = 0; i <= Sphere; i++) {
+                    if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                y11 += 10;
+                spe.get(Sphere - pomocnahodnota).translateYProperty().set(y11);
+            }
+
+            else if (cisla[vybrano] == 2) {
+                pomocnahodnota = Box;
+                for (int i = 0; i <= Box; i++) {
+                    if (zaznamBox[vybrano] == zaznamBox[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+
+                y22 += 10;
+                b1.get(Box - pomocnahodnota).translateYProperty().set(y22);
+            }
+
+            else if (cisla[vybrano] == 3) {
+                pomocnahodnota = Cube;
+                for (int i = 0; i <= Cube; i++) {
+                    if (zaznamCube[vybrano] == zaznamCube[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                y33 += 10;
+                b2.get(Cube - pomocnahodnota).translateYProperty().set(y33);
+            }
+
+            else if (cisla[vybrano] == 4) {
+                pomocnahodnota = Cylindr;
+                for (int i = 0; i <= Cylindr; i++) {
+                    if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                y44 += 10;
+                cil.get(Cylindr - pomocnahodnota).translateYProperty().set(y44);
+            }
+        });
+
+        bt[7].setText("Y -");
+        bt[7].setPrefSize(60, 60);
+        bt[7].relocate(60, 760);
+        bt[7].setOnAction(actionEvent -> {
+            if (cisla[vybrano] == 1) {
+                pomocnahodnota = Sphere;
+                for (int i = 0; i <= Sphere; i++) {
+                    if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                y11 -= 10;
+                spe.get(Sphere - pomocnahodnota).translateYProperty().set(y11);
+            }
+
+            else if (cisla[vybrano] == 2) {
+                pomocnahodnota = Box;
+                for (int i = 0; i <= Box; i++) {
+                    if (zaznamBox[vybrano] == zaznamBox[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+
+                y22 -= 10;
+                b1.get(Box - pomocnahodnota).translateYProperty().set(y22);
+            }
+
+            else if (cisla[vybrano] == 3) {
+                pomocnahodnota = Cube;
+                for (int i = 0; i <= Cube; i++) {
+                    if (zaznamCube[vybrano] == zaznamCube[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                y33 -= 10;
+                b2.get(Cube - pomocnahodnota).translateYProperty().set(y33);
+            }
+
+            else if (cisla[vybrano] == 4) {
+                pomocnahodnota = Cylindr;
+                for (int i = 0; i <= Cylindr; i++) {
+                    if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                y44 -= 10;
+                cil.get(Cylindr - pomocnahodnota).translateYProperty().set(y44);
+            }
+        });
+
+        bt[8].setText("Z +");
+        bt[8].setPrefSize(60, 60);
+        bt[8].relocate(120, 700);
+        bt[8].setOnAction(actionEvent -> {
+            if (cisla[vybrano] == 1) {
+                pomocnahodnota = Sphere;
+                for (int i = 0; i <= Sphere; i++) {
+                    if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                z11 += 10;
+                spe.get(Sphere - pomocnahodnota).translateZProperty().set(z11);
+            }
+
+            else if (cisla[vybrano] == 2) {
+                pomocnahodnota = Box;
+                for (int i = 0; i <= Box; i++) {
+                    if (zaznamBox[vybrano] == zaznamBox[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+
+                z22 += 10;
+                b1.get(Box - pomocnahodnota).translateZProperty().set(z22);
+            }
+
+            else if (cisla[vybrano] == 3) {
+                pomocnahodnota = Cube;
+                for (int i = 0; i <= Cube; i++) {
+                    if (zaznamCube[vybrano] == zaznamCube[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                z33 += 10;
+                b2.get(Cube - pomocnahodnota).translateZProperty().set(z33);
+            }
+
+            else if (cisla[vybrano] == 4) {
+                pomocnahodnota = Cylindr;
+                for (int i = 0; i <= Cylindr; i++) {
+                    if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                z44 += 10;
+                cil.get(Cylindr - pomocnahodnota).translateZProperty().set(z44);
+            }
+        });
+
+        bt[9].setText("Z -");
+        bt[9].setPrefSize(60, 60);
+        bt[9].relocate(120, 760);
+        bt[9].setOnAction(actionEvent -> {
+            if (cisla[vybrano] == 1) {
+                pomocnahodnota = Sphere;
+                for (int i = 0; i <= Sphere; i++) {
+                    if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                z11 -= 10;
+                spe.get(Sphere - pomocnahodnota).translateZProperty().set(z11);
+            }
+
+            else if (cisla[vybrano] == 2) {
+                pomocnahodnota = Box;
+                for (int i = 0; i <= Box; i++) {
+                    if (zaznamBox[vybrano] == zaznamBox[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+
+                z22 -= 10;
+                b1.get(Box - pomocnahodnota).translateZProperty().set(z22);
+            }
+
+            else if (cisla[vybrano] == 3) {
+                pomocnahodnota = Cube;
+                for (int i = 0; i <= Cube; i++) {
+                    if (zaznamCube[vybrano] == zaznamCube[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                z33 -= 10;
+                b2.get(Cube - pomocnahodnota).translateZProperty().set(z33);
+            }
+
+            else if (cisla[vybrano] == 4) {
+                pomocnahodnota = Cylindr;
+                for (int i = 0; i <= Cylindr; i++) {
+                    if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                        break;
+                    } else {
+                        //pomocnahodnota--;
+                    }
+                }
+                z44 -= 10;
+                cil.get(Cylindr - pomocnahodnota).translateZProperty().set(z44);
+            }
+        });
 
 
         sp.setPrefSize(200,1000);
-        v.setPrefSize(200, 1500);
+        v.setPrefSize(300, 1500);
         sp.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setContent(v);
 
-        v.getChildren().addAll(bt[0], bt[1], bt[2], bt[3], chb[0], chb[1]);
-
+        v.getChildren().addAll(bt[0], bt[1], bt[2], bt[3], bt[4], bt[5], bt[6], bt[7], bt[8], bt[9], chb[0], chb[1]);
 
 
 
@@ -219,15 +589,11 @@ public class Camera3D extends Application {
 
 
 
-
-
-
-
         hlscene.setFill(Color.SILVER);
 
 
 
-        initMouseControl( sg , hlscene, stage, bp, v);
+        initMouseControl( sg , hlscene, stage, bp);
 
 
 /*
@@ -302,30 +668,61 @@ public class Camera3D extends Application {
                             if (zaznamSphere[vybrano] == zaznamSphere[i]){
                                 break;
                             } else {
-                                pomocnahodnota--;
+                                //pomocnahodnota--;
                             }
                         }
                         spe.get(Sphere - pomocnahodnota).setMaterial(materials[new_val.intValue()]);
                     } else if (cisla[vybrano] == 2) {
-                        b1.get(Box).setMaterial(materials[new_val.intValue()]);
+                        pomocnahodnota = Box;
+                        for (int i = 0; i <= Box; i++) {
+                            if (zaznamBox[vybrano] == zaznamBox[i]){
+                                break;
+                            } else {
+                                //pomocnahodnota--;
+                            }
+                        }
+                        b1.get(Box - pomocnahodnota).setMaterial(materials[new_val.intValue()]);
                     } else if (cisla[vybrano] == 3) {
-                        b2.get(Cube).setMaterial(materials[new_val.intValue()]);
+                        pomocnahodnota = Cube;
+                        for (int i = 0; i <= Cube; i++) {
+                            if (zaznamCube[vybrano] == zaznamCube[i]){
+                                break;
+                            } else {
+                                //pomocnahodnota--;
+                            }
+                        }
+                        b2.get(Cube - pomocnahodnota).setMaterial(materials[new_val.intValue()]);
                     }else if (cisla[vybrano] == 4) {
-                        cil.get(Cylindr).setMaterial(materials[new_val.intValue()]);
+                        pomocnahodnota = Cylindr;
+                        for (int i = 0; i <= Cylindr; i++) {
+                            if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                                break;
+                            } else {
+                                //pomocnahodnota--;
+                            }
+                        }
+                        cil.get(Cylindr - pomocnahodnota).setMaterial(materials[new_val.intValue()]);
                     }
-
                 });
 
+        //Infoscene
+ /*
+
+        try {
+            uvodh.getChildren().addAll(lb);
+            uvodscene.getStylesheets().add("style.css");
+
+        } catch (NullPointerException e) {
+            System.out.println("Chyba");
+        }
+
+  */
 
 
         stage.setTitle("ArchitectureAPP");
+        stage.getIcons().add(new Image(String.valueOf(logourl)));
         stage.setScene(hlscene);
         stage.show();
-
-        //Infoscene
-
-        Label lb = new Label("ArchitectureAPP");
-
 
 
 
@@ -336,40 +733,40 @@ public class Camera3D extends Application {
     private Sphere prepareSphere() {
         Sphere++;
         System.out.println("PIS");
-        int v = sc.nextInt();
-        int x = sc.nextInt();
-        int y = sc.nextInt();
-        int z = sc.nextInt();
+        v1 = sc.nextInt();
+        x11 = sc.nextInt();
+        y11 = sc.nextInt();
+        z11 = sc.nextInt();
         String s = sc.next();
         PhongMaterial material = new PhongMaterial();
         material.setDiffuseMap(new Image(getClass().getResourceAsStream("/com/example/demo2/ffffff.png")));
-        spe.add(new Sphere(v));
-        spe.get(Sphere-2).setMaterial(material);
+        spe.add(new Sphere(v1));
+        spe.get(Sphere-1).setMaterial(material);
 
-        spe.get(Sphere-2).translateXProperty().set(x);
-        spe.get(Sphere-2).translateYProperty().set(y);
-        spe.get(Sphere-2).translateZProperty().set(z);
+        spe.get(Sphere-1).translateXProperty().set(x11);
+        spe.get(Sphere-1).translateYProperty().set(y11);
+        spe.get(Sphere-1).translateZProperty().set(z11);
 
         chb[1].getItems().add(s);
 
 
         cisla[k] = 1;
         k++;
-        zaznamSphere[Sphere - 2] = pocetobjektu;
+        zaznamSphere[Sphere - 1] = pocetobjektu;
         pocetobjektu++;
 
-        return spe.get(Sphere-2);
+        return spe.get(Sphere-1);
     }
 
     private Box prepareBox() {
         Box++;
         System.out.println("PIS");
-        int x1 = sc.nextInt();
-        int y2 = sc.nextInt();
-        int z3 = sc.nextInt();
-        int x = sc.nextInt();
-        int y = sc.nextInt();
-        int z = sc.nextInt();
+        x2 = sc.nextInt();
+        y2 = sc.nextInt();
+        z2 = sc.nextInt();
+        x22 = sc.nextInt();
+        y22 = sc.nextInt();
+        z22 = sc.nextInt();
         String s = sc.next();
 
         PhongMaterial material = new PhongMaterial();
@@ -377,12 +774,12 @@ public class Camera3D extends Application {
         material.setDiffuseMap(new Image(getClass().getResourceAsStream("/com/example/demo2/ffffff.png")));
 
 
-        b1.add(new Box(x1,y2,z3));
+        b1.add(new Box(x2,y2,z2));
         b1.get(Box-1).setMaterial(material);
 
-        b1.get(Box-1).translateXProperty().set(x);
-        b1.get(Box-1).translateYProperty().set(y);
-        b1.get(Box-1).translateZProperty().set(z);
+        b1.get(Box-1).translateXProperty().set(x22);
+        b1.get(Box-1).translateYProperty().set(y22);
+        b1.get(Box-1).translateZProperty().set(z22);
 
 
         chb[1].getItems().add(s);
@@ -390,6 +787,7 @@ public class Camera3D extends Application {
 
         cisla[k] = 2;
         k++;
+        zaznamBox[Box - 1] = pocetobjektu;
         pocetobjektu++;
 
         return b1.get(Box-1);
@@ -398,10 +796,10 @@ public class Camera3D extends Application {
     private Box prepareCube() {
         Cube++;
         System.out.println("PIS");
-        int x1 = sc.nextInt();
-        int x = sc.nextInt();
-        int y = sc.nextInt();
-        int z = sc.nextInt();
+        x3 = sc.nextInt();
+        x33 = sc.nextInt();
+        y33 = sc.nextInt();
+        z33 = sc.nextInt();
         String s = sc.next();
 
         PhongMaterial material = new PhongMaterial();
@@ -409,18 +807,19 @@ public class Camera3D extends Application {
         material.setDiffuseMap(new Image(getClass().getResourceAsStream("/com/example/demo2/ffffff.png")));
 
 
-        b2.add(new Box(x1,x1,x1));
+        b2.add(new Box(x3,x3,x3));
         b2.get(Cube-1).setMaterial(material);
 
-        b2.get(Cube-1).translateXProperty().set(x);
-        b2.get(Cube-1).translateYProperty().set(y);
-        b2.get(Cube-1).translateZProperty().set(z);
+        b2.get(Cube-1).translateXProperty().set(x33);
+        b2.get(Cube-1).translateYProperty().set(y33);
+        b2.get(Cube-1).translateZProperty().set(z33);
 
 
         chb[1].getItems().add(s);
 
         cisla[k] = 3;
         k++;
+        zaznamCube[Cube - 1] = pocetobjektu;
         pocetobjektu++;
 
         return b2.get(Cube-1);
@@ -429,11 +828,11 @@ public class Camera3D extends Application {
     public Cylinder prepareCylinder() {
         Cylindr++;
         System.out.println("PIS");
-        int x1 = sc.nextInt();
-        int y2 = sc.nextInt();
-        int x = sc.nextInt();
-        int y = sc.nextInt();
-        int z = sc.nextInt();
+        x4 = sc.nextInt();
+        y4 = sc.nextInt();
+        x44 = sc.nextInt();
+        y44 = sc.nextInt();
+        z44 = sc.nextInt();
         String s = sc.next();
 
         PhongMaterial material = new PhongMaterial();
@@ -441,18 +840,19 @@ public class Camera3D extends Application {
         material.setDiffuseMap(new Image(getClass().getResourceAsStream("/com/example/demo2/ffffff.png")));
 
 
-        cil.add(new Cylinder(x1,y2, 100));
+        cil.add(new Cylinder(x4,y4, 100));
         cil.get(Cylindr-1).setMaterial(material);
 
-        cil.get(Cylindr-1).translateXProperty().set(x);
-        cil.get(Cylindr-1).translateYProperty().set(y);
-        cil.get(Cylindr-1).translateZProperty().set(z);
+        cil.get(Cylindr-1).translateXProperty().set(x44);
+        cil.get(Cylindr-1).translateYProperty().set(y44);
+        cil.get(Cylindr-1).translateZProperty().set(z44);
 
 
         chb[1].getItems().add(s);
 
         cisla[k] = 4;
         k++;
+        zaznamCylindr[Cylindr - 1] = pocetobjektu;
         pocetobjektu++;
 
         return cil.get(Cylindr-1);
@@ -460,48 +860,48 @@ public class Camera3D extends Application {
     }
 
 
-    private void initMouseControl(SmartGroup sg, Scene scene, Stage stage, BorderPane bp, VBox v) {
+    private void initMouseControl(SmartGroup sg, Scene scene, Stage stage, BorderPane bp) {
 
-        Rotate xRotate;
-        Rotate yRotate;
-        sg.getTransforms().addAll(
-                xRotate = new Rotate(0, Rotate.X_AXIS),
-                yRotate = new Rotate(0, Rotate.Y_AXIS)
-        );
-        xRotate.angleProperty().bind(angleX);
-        yRotate.angleProperty().bind(angleY);
+            Rotate xRotate;
+            Rotate yRotate;
+            sg.getTransforms().addAll(
+                    xRotate = new Rotate(0, Rotate.X_AXIS),
+                    yRotate = new Rotate(0, Rotate.Y_AXIS)
+            );
+            xRotate.angleProperty().bind(angleX);
+            yRotate.angleProperty().bind(angleY);
 
-        bp.setOnMousePressed(event -> {
+            bp.setOnMousePressed(event -> {
 
-            anchorX = event.getScreenX();
-            anchorY = event.getScreenY();
-            anchorAngleX = angleX.get();
-            anchorAngleY = angleY.get();
+                anchorX = event.getScreenX();
+                anchorY = event.getScreenY();
+                anchorAngleX = angleX.get();
+                anchorAngleY = angleY.get();
 
-        });
-        bp.setOnMouseDragged(event -> {
-            angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
-            angleY.set(anchorAngleY - (anchorX - event.getSceneX()));
-        });
+            });
+            bp.setOnMouseDragged(event -> {
+                angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
+                angleY.set(anchorAngleY - (anchorX - event.getSceneX()));
+            });
 
-        bp.addEventHandler(ScrollEvent.SCROLL, event ->{
-            double delta = event.getDeltaY();
-            sg.translateZProperty().set(sg.getTranslateZ() + 10);
-
-
-        });
+            bp.addEventHandler(ScrollEvent.SCROLL, event ->{
+                double delta = event.getDeltaY();
+                sg.translateZProperty().set(sg.getTranslateZ() + 10);
 
 
-        bp.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            switch (event.getCode()){
-                case W: {
-                    sg.translateZProperty().set(sg.getTranslateX() + 10);
+            });
+
+
+            bp.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+                switch (event.getCode()){
+                    case W: {
+                        sg.translateZProperty().set(sg.getTranslateX() + 10);
+                    }
+                    case S: {
+                        sg.translateZProperty().set(sg.getTranslateX() - 10);
+                    }
                 }
-                case S: {
-                    sg.translateZProperty().set(sg.getTranslateX() - 10);
-                }
-            }
-        });
+            });
     }
 
 
