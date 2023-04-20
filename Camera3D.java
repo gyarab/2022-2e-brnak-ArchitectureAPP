@@ -87,6 +87,11 @@ public class Camera3D extends Application {
 
     int vybrano = 1;
 
+    TextField [] tf = {new TextField(), new TextField(), new TextField(), new TextField(), new TextField(), new TextField(), new TextField()};
+    int tfx;
+    int tfy;
+    int tfz;
+
 
     SmartGroup sg  = new SmartGroup();
     
@@ -182,9 +187,11 @@ public class Camera3D extends Application {
         bt[0].relocate(0,0);
         bt[0].setOnAction(actionEvent -> {
 
-            TextField tf = new TextField();
+            
             Box b = prepareBox();
             sg.getChildren().addAll(b);
+
+
         });
 
         bt[1].setText("Cube");
@@ -562,12 +569,21 @@ public class Camera3D extends Application {
             }
         });
 
+        tf[0].setPrefSize(80, 10);
+
+
 
         sp.setPrefSize(200,1000);
         v.setPrefSize(300, 1500);
         sp.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setContent(v);
 
+        tf[0].setPrefSize(80,20);
+        tf[1].setPrefSize(80,20);
+        tf[2].setPrefSize(80,20);
+        tf[3].setPrefSize(80,20);
+
+        v.getChildren().addAll(tf[0], tf[1], tf[2], tf[3], tf[4], tf[5], tf[6]);
         v.getChildren().addAll(bt[0], bt[1], bt[2], bt[3], bt[4], bt[5], bt[6], bt[7], bt[8], bt[9], chb[0], chb[1]);
 
 
@@ -761,13 +777,13 @@ public class Camera3D extends Application {
     private Box prepareBox() {
         Box++;
         System.out.println("PIS");
-        x2 = sc.nextInt();
-        y2 = sc.nextInt();
-        z2 = sc.nextInt();
-        x22 = sc.nextInt();
-        y22 = sc.nextInt();
-        z22 = sc.nextInt();
-        String s = sc.next();
+        x2 = Integer.parseInt(tf[0].getText());//sc.nextInt();
+        y2 = Integer.parseInt(tf[1].getText());//sc.nextInt();
+        z2 = Integer.parseInt(tf[2].getText());//sc.nextInt();
+        x22 = Integer.parseInt(tf[3].getText());//sc.nextInt();
+        y22 = Integer.parseInt(tf[4].getText());//sc.nextInt();
+        z22 = Integer.parseInt(tf[5].getText());//sc.nextInt();
+        String s = String.valueOf(tf[6].getText());//sc.next();
 
         PhongMaterial material = new PhongMaterial();
         //material.setDiffuseColor(Color.MIDNIGHTBLUE);
