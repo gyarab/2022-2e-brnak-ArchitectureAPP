@@ -8,22 +8,23 @@ import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
+import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Camera3D extends Application {
 
-    Scanner sc = new Scanner(System.in);
 
     private static final float WIDTH = 2000;
     private static final float HEIGHT = 1000;
@@ -87,7 +88,11 @@ public class Camera3D extends Application {
 
     int vybrano = 1;
 
-    TextField [] tf = {new TextField(), new TextField(), new TextField(), new TextField(), new TextField(), new TextField(), new TextField()};
+    String s;
+
+    Label l = new Label("Vítám tě :)");
+
+
     int tfx;
     int tfy;
     int tfz;
@@ -123,8 +128,6 @@ public class Camera3D extends Application {
 
     @Override
     public void start(Stage stage) throws NullPointerException {
-
-
 
 
         materials[0].setDiffuseMap(new Image(getClass().getResourceAsStream("/com/example/demo2/mramor.png")));
@@ -176,6 +179,8 @@ public class Camera3D extends Application {
         //sg[0].getChildren().addAll(cm);
         sg.getChildren().addAll(lineX, lineY, lineZ);
 
+        l.setTextFill(Color.WHITE);
+        l.setFont(new Font("Arial", 15));
 
         //tady bylo Group gp = new Group();
         // gp.getChildren().addAll(sg);
@@ -187,11 +192,42 @@ public class Camera3D extends Application {
         bt[0].relocate(0,0);
         bt[0].setOnAction(actionEvent -> {
 
-            
-            Box b = prepareBox();
-            sg.getChildren().addAll(b);
+            TextField [] tf = {new TextField(), new TextField(), new TextField(), new TextField(), new TextField(), new TextField(), new TextField()};
+            tf[0].setPromptText("Zadejte hranu X...");
+            tf[1].setPromptText("Zadejte hranu Y...");
+            tf[2].setPromptText("Zadejte hranu Z...");
+            tf[3].setPromptText("Zadejte souřadnici X...");
+            tf[4].setPromptText("Zadejte souřadnici Y...");
+            tf[5].setPromptText("Zadejte souřadnici Z...");
+            tf[6].setPromptText("Zadejte název objektu...");
+            v.getChildren().addAll(tf[0], tf[1], tf[2], tf[3], tf[4], tf[5], tf[6]);
 
+            bp.setOnKeyPressed((event) -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    try {
+                        x2 = Integer.parseInt(tf[0].getText());//sc.nextInt();
+                        y2 = Integer.parseInt(tf[1].getText());//sc.nextInt();
+                        z2 = Integer.parseInt(tf[2].getText());//sc.nextInt();
+                        x22 = Integer.parseInt(tf[3].getText());//sc.nextInt();
+                        y22 = Integer.parseInt(tf[4].getText());//sc.nextInt();
+                        z22 = Integer.parseInt(tf[5].getText());//sc.nextInt();
+                        s = String.valueOf(tf[6].getText());//sc.next();
 
+                        v.getChildren().remove(tf[0]);
+                        v.getChildren().remove(tf[1]);
+                        v.getChildren().remove(tf[2]);
+                        v.getChildren().remove(tf[3]);
+                        v.getChildren().remove(tf[4]);
+                        v.getChildren().remove(tf[5]);
+                        v.getChildren().remove(tf[6]);
+
+                        Box b = prepareBox();
+                        sg.getChildren().addAll(b);
+                    } catch (NumberFormatException e) {
+                        l.setText("Zadejte číslo do textového řádku");
+                    }
+                }
+            });
         });
 
         bt[1].setText("Cube");
@@ -199,8 +235,36 @@ public class Camera3D extends Application {
         bt[1].relocate(0,100);
         bt[1].setOnAction(actionEvent -> {
 
-            Box c = prepareCube();
-            sg.getChildren().addAll(c);
+            TextField [] tf = {new TextField(), new TextField(), new TextField(), new TextField(), new TextField()};
+            tf[0].setPromptText("Zadejte hranu A...");
+            tf[1].setPromptText("Zadejte souřadnici X...");
+            tf[2].setPromptText("Zadejte souřadnici Y...");
+            tf[3].setPromptText("Zadejte souřadnici Z...");
+            tf[4].setPromptText("Zadejte název objektu...");
+            v.getChildren().addAll(tf[0], tf[1], tf[2], tf[3], tf[4]);
+
+            bp.setOnKeyPressed((event) -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    try {
+                        x3 = Integer.parseInt(tf[0].getText());
+                        x33 = Integer.parseInt(tf[1].getText());
+                        y33 = Integer.parseInt(tf[2].getText());
+                        z33 = Integer.parseInt(tf[3].getText());
+                        s = String.valueOf(tf[4].getText());
+
+                        v.getChildren().remove(tf[0]);
+                        v.getChildren().remove(tf[1]);
+                        v.getChildren().remove(tf[2]);
+                        v.getChildren().remove(tf[3]);
+                        v.getChildren().remove(tf[4]);
+
+                        Box c = prepareCube();
+                        sg.getChildren().addAll(c);
+                    } catch (NumberFormatException e) {
+                        l.setText("Zadejte číslo do textového řádku");
+                    }
+                }
+            });
         });
 
         bt[2].setText("Sphere");
@@ -208,8 +272,37 @@ public class Camera3D extends Application {
         bt[2].relocate(0,200);
         bt[2].setOnAction(actionEvent -> {
 
-            Sphere s = prepareSphere();
-            sg.getChildren().addAll(s);
+            TextField [] tf = {new TextField(), new TextField(), new TextField(), new TextField(), new TextField()};
+            tf[0].setPromptText("Zadejte poloměr r...");
+            tf[1].setPromptText("Zadejte souřadnici X...");
+            tf[2].setPromptText("Zadejte souřadnici Y...");
+            tf[3].setPromptText("Zadejte souřadnici Z...");
+            tf[4].setPromptText("Zadejte název objektu...");
+            v.getChildren().addAll(tf[0], tf[1], tf[2], tf[3], tf[4]);
+
+            bp.setOnKeyPressed((event) -> {
+                if (event.getCode() == KeyCode.ENTER) {
+
+                    try {
+                        v1 = Integer.parseInt(tf[0].getText());
+                        x11 = Integer.parseInt(tf[1].getText());
+                        y11 = Integer.parseInt(tf[2].getText());
+                        z11 = Integer.parseInt(tf[3].getText());
+                        s = String.valueOf(tf[4].getText());
+
+                        v.getChildren().remove(tf[0]);
+                        v.getChildren().remove(tf[1]);
+                        v.getChildren().remove(tf[2]);
+                        v.getChildren().remove(tf[3]);
+                        v.getChildren().remove(tf[4]);
+
+                        Sphere s = prepareSphere();
+                        sg.getChildren().addAll(s);
+                    } catch (NumberFormatException e) {
+                        l.setText("Zadejte číslo do textového řádku");
+                    }
+                }
+            });
         });
 
         bt[3].setText("Cylinder");
@@ -217,8 +310,41 @@ public class Camera3D extends Application {
         bt[3].relocate(0,300);
         bt[3].setOnAction(actionEvent -> {
 
-            Cylinder c = prepareCylinder();
-            sg.getChildren().addAll(c);
+            TextField [] tf = {new TextField(), new TextField(), new TextField(), new TextField(), new TextField(), new TextField()};
+            tf[0].setPromptText("Zadejte poloměr r...");
+            tf[1].setPromptText("Zadejte délku d...");
+            tf[2].setPromptText("Zadejte souřadnici X...");
+            tf[3].setPromptText("Zadejte souřadnici Y...");
+            tf[4].setPromptText("Zadejte souřadnici Z...");
+            tf[5].setPromptText("Zadejte název objektu...");
+            v.getChildren().addAll(tf[0], tf[1], tf[2], tf[3], tf[4], tf[5]);
+
+
+            bp.setOnKeyPressed((event) -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    try {
+                        x4 = Integer.parseInt(tf[0].getText());
+                        y4 = Integer.parseInt(tf[1].getText());
+                        x44 = Integer.parseInt(tf[2].getText());
+                        y44 = Integer.parseInt(tf[3].getText());
+                        z44 = Integer.parseInt(tf[4].getText());
+                        s = String.valueOf(tf[5].getText());
+
+                        v.getChildren().remove(tf[0]);
+                        v.getChildren().remove(tf[1]);
+                        v.getChildren().remove(tf[2]);
+                        v.getChildren().remove(tf[3]);
+                        v.getChildren().remove(tf[4]);
+                        v.getChildren().remove(tf[5]);
+
+                        Cylinder c = prepareCylinder();
+                        sg.getChildren().addAll(c);
+
+                    } catch (NumberFormatException e) {
+                        l.setText("Zadejte číslo do textového řádku");
+                    }
+                }
+            });
         });
 
         bt[4].setText("X +");
@@ -569,7 +695,7 @@ public class Camera3D extends Application {
             }
         });
 
-        tf[0].setPrefSize(80, 10);
+
 
 
 
@@ -578,13 +704,9 @@ public class Camera3D extends Application {
         sp.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setContent(v);
 
-        tf[0].setPrefSize(80,20);
-        tf[1].setPrefSize(80,20);
-        tf[2].setPrefSize(80,20);
-        tf[3].setPrefSize(80,20);
 
-        v.getChildren().addAll(tf[0], tf[1], tf[2], tf[3], tf[4], tf[5], tf[6]);
-        v.getChildren().addAll(bt[0], bt[1], bt[2], bt[3], bt[4], bt[5], bt[6], bt[7], bt[8], bt[9], chb[0], chb[1]);
+
+        v.getChildren().addAll(bt[0], bt[1], bt[2], bt[3], bt[4], bt[5], bt[6], bt[7], bt[8], bt[9], chb[0], chb[1], l);
 
 
 
@@ -749,11 +871,7 @@ public class Camera3D extends Application {
     private Sphere prepareSphere() {
         Sphere++;
         System.out.println("PIS");
-        v1 = sc.nextInt();
-        x11 = sc.nextInt();
-        y11 = sc.nextInt();
-        z11 = sc.nextInt();
-        String s = sc.next();
+
         PhongMaterial material = new PhongMaterial();
         material.setDiffuseMap(new Image(getClass().getResourceAsStream("/com/example/demo2/ffffff.png")));
         spe.add(new Sphere(v1));
@@ -777,13 +895,7 @@ public class Camera3D extends Application {
     private Box prepareBox() {
         Box++;
         System.out.println("PIS");
-        x2 = Integer.parseInt(tf[0].getText());//sc.nextInt();
-        y2 = Integer.parseInt(tf[1].getText());//sc.nextInt();
-        z2 = Integer.parseInt(tf[2].getText());//sc.nextInt();
-        x22 = Integer.parseInt(tf[3].getText());//sc.nextInt();
-        y22 = Integer.parseInt(tf[4].getText());//sc.nextInt();
-        z22 = Integer.parseInt(tf[5].getText());//sc.nextInt();
-        String s = String.valueOf(tf[6].getText());//sc.next();
+
 
         PhongMaterial material = new PhongMaterial();
         //material.setDiffuseColor(Color.MIDNIGHTBLUE);
@@ -812,11 +924,7 @@ public class Camera3D extends Application {
     private Box prepareCube() {
         Cube++;
         System.out.println("PIS");
-        x3 = sc.nextInt();
-        x33 = sc.nextInt();
-        y33 = sc.nextInt();
-        z33 = sc.nextInt();
-        String s = sc.next();
+
 
         PhongMaterial material = new PhongMaterial();
         //material.setDiffuseColor(Color.MIDNIGHTBLUE);
@@ -844,12 +952,6 @@ public class Camera3D extends Application {
     public Cylinder prepareCylinder() {
         Cylindr++;
         System.out.println("PIS");
-        x4 = sc.nextInt();
-        y4 = sc.nextInt();
-        x44 = sc.nextInt();
-        y44 = sc.nextInt();
-        z44 = sc.nextInt();
-        String s = sc.next();
 
         PhongMaterial material = new PhongMaterial();
         //material.setDiffuseColor(Color.MIDNIGHTBLUE);
