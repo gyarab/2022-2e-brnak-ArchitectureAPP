@@ -17,10 +17,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Camera3D extends Application {
@@ -95,11 +92,9 @@ public class Camera3D extends Application {
     SmartGroup sg  = new SmartGroup();
     
     Button bt [] = {new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button()};
-    Button btplusminus [] = {new Button(), new Button()};
-    Button xyz [] = {new Button("X"), new Button("Y"), new Button("Z")};
-    Button start = new Button("Start");
+    Button delete = new Button("Delete");
 
-    PhongMaterial materials [] = {new PhongMaterial(), new PhongMaterial(), new PhongMaterial()};
+    PhongMaterial materials [] = {new PhongMaterial(), new PhongMaterial(), new PhongMaterial(), new PhongMaterial()};
 
 
     ChoiceBox chb [] = {new ChoiceBox(), new ChoiceBox()};
@@ -127,10 +122,12 @@ public class Camera3D extends Application {
         materials[0].setDiffuseMap(new Image(getClass().getResourceAsStream("/com/example/demo2/mramor.png")));
         materials[1].setDiffuseMap(new Image(getClass().getResourceAsStream("/com/example/demo2/orechdrevo-3.jpg")));
         materials[2].setDiffuseMap(new Image(getClass().getResourceAsStream("/com/example/demo2/ffffff.png")));
+        materials[3].setDiffuseMap(new Image(getClass().getResourceAsStream("/com/example/demo2/Trava.jpg")));
 
         chb[0].getItems().add("Mramor");
         chb[0].getItems().add("Ořechové dřeevo");
         chb[0].getItems().add("Bílá barva");
+        chb[0].getItems().add("Trava");
 
 
         //Priprava linie
@@ -156,6 +153,7 @@ public class Camera3D extends Application {
 
         l.setTextFill(Color.WHITE);
         l.setFont(new Font("Arial", 15));
+
 
 
         //Buttony tvoření
@@ -328,10 +326,10 @@ public class Camera3D extends Application {
             if (cisla[vybrano] == 1) {
                 pomocnahodnota = Sphere;
                 for (int i = 0; i <= Sphere; i++) {
-                    if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                    if (zaznamSphere[vybrano - (Cylindr + Cube + Box)] == zaznamSphere[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 x11 += 10;
@@ -341,10 +339,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 2) {
                 pomocnahodnota = Box;
                 for (int i = 0; i <= Box; i++) {
-                    if (zaznamBox[vybrano] == zaznamBox[i]){
+                    if (zaznamBox[vybrano - (Cylindr + Cube + Sphere)] == zaznamBox[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
 
@@ -355,10 +353,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 3) {
                 pomocnahodnota = Cube;
                 for (int i = 0; i <= Cube; i++) {
-                    if (zaznamCube[vybrano] == zaznamCube[i]){
+                    if (zaznamCube[vybrano - (Cylindr + Box + Sphere)] == zaznamCube[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 x33 += 10;
@@ -368,10 +366,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 4) {
                 pomocnahodnota = Cylindr;
                 for (int i = 0; i <= Cylindr; i++) {
-                    if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                    if (zaznamCylindr[vybrano - (Cube + Box + Sphere)] == zaznamCylindr[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 x44 += 10;
@@ -386,10 +384,10 @@ public class Camera3D extends Application {
             if (cisla[vybrano] == 1) {
                 pomocnahodnota = Sphere;
                 for (int i = 0; i <= Sphere; i++) {
-                    if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                    if (zaznamSphere[vybrano - (Cylindr + Cube + Box)] == zaznamSphere[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 x11 -= 10;
@@ -399,10 +397,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 2) {
                 pomocnahodnota = Box;
                 for (int i = 0; i <= Box; i++) {
-                    if (zaznamBox[vybrano] == zaznamBox[i]){
+                    if (zaznamBox[vybrano - (Cylindr + Cube + Sphere)] == zaznamBox[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
 
@@ -413,10 +411,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 3) {
                 pomocnahodnota = Cube;
                 for (int i = 0; i <= Cube; i++) {
-                    if (zaznamCube[vybrano] == zaznamCube[i]){
+                    if (zaznamCube[vybrano - (Cylindr + Box + Sphere)] == zaznamCube[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 x33 -= 10;
@@ -426,10 +424,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 4) {
                 pomocnahodnota = Cylindr;
                 for (int i = 0; i <= Cylindr; i++) {
-                    if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                    if (zaznamCylindr[vybrano - (Cube + Box + Sphere)] == zaznamCylindr[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 x44 -= 10;
@@ -444,10 +442,10 @@ public class Camera3D extends Application {
             if (cisla[vybrano] == 1) {
                 pomocnahodnota = Sphere;
                 for (int i = 0; i <= Sphere; i++) {
-                    if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                    if (zaznamSphere[vybrano - (Cylindr + Cube + Box)] == zaznamSphere[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 y11 += 10;
@@ -457,10 +455,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 2) {
                 pomocnahodnota = Box;
                 for (int i = 0; i <= Box; i++) {
-                    if (zaznamBox[vybrano] == zaznamBox[i]){
+                    if (zaznamBox[vybrano - (Cylindr + Cube + Sphere)] == zaznamBox[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
 
@@ -471,10 +469,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 3) {
                 pomocnahodnota = Cube;
                 for (int i = 0; i <= Cube; i++) {
-                    if (zaznamCube[vybrano] == zaznamCube[i]){
+                    if (zaznamCube[vybrano - (Cylindr + Box + Sphere)] == zaznamCube[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 y33 += 10;
@@ -484,10 +482,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 4) {
                 pomocnahodnota = Cylindr;
                 for (int i = 0; i <= Cylindr; i++) {
-                    if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                    if (zaznamCylindr[vybrano - (Cube + Box + Sphere)] == zaznamCylindr[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 y44 += 10;
@@ -502,10 +500,10 @@ public class Camera3D extends Application {
             if (cisla[vybrano] == 1) {
                 pomocnahodnota = Sphere;
                 for (int i = 0; i <= Sphere; i++) {
-                    if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                    if (zaznamSphere[vybrano - (Cylindr + Cube + Box)] == zaznamSphere[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 y11 -= 10;
@@ -515,10 +513,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 2) {
                 pomocnahodnota = Box;
                 for (int i = 0; i <= Box; i++) {
-                    if (zaznamBox[vybrano] == zaznamBox[i]){
+                    if (zaznamBox[vybrano - (Cylindr + Cube + Sphere)] == zaznamBox[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
 
@@ -529,10 +527,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 3) {
                 pomocnahodnota = Cube;
                 for (int i = 0; i <= Cube; i++) {
-                    if (zaznamCube[vybrano] == zaznamCube[i]){
+                    if (zaznamCube[vybrano - (Cylindr + Box + Sphere)] == zaznamCube[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 y33 -= 10;
@@ -542,10 +540,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 4) {
                 pomocnahodnota = Cylindr;
                 for (int i = 0; i <= Cylindr; i++) {
-                    if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                    if (zaznamCylindr[vybrano - (Cube + Box + Sphere)] == zaznamCylindr[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 y44 -= 10;
@@ -560,10 +558,10 @@ public class Camera3D extends Application {
             if (cisla[vybrano] == 1) {
                 pomocnahodnota = Sphere;
                 for (int i = 0; i <= Sphere; i++) {
-                    if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                    if (zaznamSphere[vybrano - (Cylindr + Cube + Box)] == zaznamSphere[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 z11 += 10;
@@ -573,10 +571,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 2) {
                 pomocnahodnota = Box;
                 for (int i = 0; i <= Box; i++) {
-                    if (zaznamBox[vybrano] == zaznamBox[i]){
+                    if (zaznamBox[vybrano - (Cylindr + Cube + Sphere)] == zaznamBox[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
 
@@ -587,10 +585,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 3) {
                 pomocnahodnota = Cube;
                 for (int i = 0; i <= Cube; i++) {
-                    if (zaznamCube[vybrano] == zaznamCube[i]){
+                    if (zaznamCube[vybrano - (Cylindr + Box + Sphere)] == zaznamCube[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 z33 += 10;
@@ -600,10 +598,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 4) {
                 pomocnahodnota = Cylindr;
                 for (int i = 0; i <= Cylindr; i++) {
-                    if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                    if (zaznamCylindr[vybrano - (Cube + Box + Sphere)] == zaznamCylindr[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 z44 += 10;
@@ -618,10 +616,10 @@ public class Camera3D extends Application {
             if (cisla[vybrano] == 1) {
                 pomocnahodnota = Sphere;
                 for (int i = 0; i <= Sphere; i++) {
-                    if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                    if (zaznamSphere[vybrano - (Cylindr + Cube + Box)] == zaznamSphere[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 z11 -= 10;
@@ -631,10 +629,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 2) {
                 pomocnahodnota = Box;
                 for (int i = 0; i <= Box; i++) {
-                    if (zaznamBox[vybrano] == zaznamBox[i]){
+                    if (zaznamBox[vybrano - (Cylindr + Cube + Sphere)] == zaznamBox[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
 
@@ -645,10 +643,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 3) {
                 pomocnahodnota = Cube;
                 for (int i = 0; i <= Cube; i++) {
-                    if (zaznamCube[vybrano] == zaznamCube[i]){
+                    if (zaznamCube[vybrano - (Cylindr + Box + Sphere)] == zaznamCube[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 z33 -= 10;
@@ -658,10 +656,10 @@ public class Camera3D extends Application {
             else if (cisla[vybrano] == 4) {
                 pomocnahodnota = Cylindr;
                 for (int i = 0; i <= Cylindr; i++) {
-                    if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                    if (zaznamCylindr[vybrano - (Cube + Box + Sphere)] == zaznamCylindr[i]){
                         break;
                     } else {
-                        //pomocnahodnota--;
+                        pomocnahodnota--;
                     }
                 }
                 z44 -= 10;
@@ -754,6 +752,7 @@ public class Camera3D extends Application {
         chb[1].getSelectionModel().selectedIndexProperty().addListener(
                 (ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
                     vybrano = new_val.intValue();
+                    System.out.println(vybrano);
                 });
 
         //Material na objekt
@@ -764,40 +763,40 @@ public class Camera3D extends Application {
                     if (cisla[vybrano] == 1) {
                         pomocnahodnota = Sphere;
                         for (int i = 0; i <= Sphere; i++) {
-                            if (zaznamSphere[vybrano] == zaznamSphere[i]){
+                            if (zaznamSphere[vybrano - (Cylindr + Cube + Box)] == zaznamSphere[i]){
                                 break;
                             } else {
-                                //pomocnahodnota--;
+                                pomocnahodnota--;
                             }
                         }
                         spe.get(Sphere - pomocnahodnota).setMaterial(materials[new_val.intValue()]);
                     } else if (cisla[vybrano] == 2) {
                         pomocnahodnota = Box;
                         for (int i = 0; i <= Box; i++) {
-                            if (zaznamBox[vybrano] == zaznamBox[i]){
+                            if (zaznamBox[vybrano - (Cylindr + Cube + Sphere)] == zaznamBox[i]){
                                 break;
                             } else {
-                                //pomocnahodnota--;
+                                pomocnahodnota--;
                             }
                         }
                         b1.get(Box - pomocnahodnota).setMaterial(materials[new_val.intValue()]);
                     } else if (cisla[vybrano] == 3) {
                         pomocnahodnota = Cube;
                         for (int i = 0; i <= Cube; i++) {
-                            if (zaznamCube[vybrano] == zaznamCube[i]){
+                            if (zaznamCube[vybrano - (Cylindr + Box + Sphere)] == zaznamCube[i]){
                                 break;
                             } else {
-                                //pomocnahodnota--;
+                                pomocnahodnota--;
                             }
                         }
                         b2.get(Cube - pomocnahodnota).setMaterial(materials[new_val.intValue()]);
                     }else if (cisla[vybrano] == 4) {
                         pomocnahodnota = Cylindr;
                         for (int i = 0; i <= Cylindr; i++) {
-                            if (zaznamCylindr[vybrano] == zaznamCylindr[i]){
+                            if (zaznamCylindr[vybrano - (Cube + Box + Sphere)] == zaznamCylindr[i]){
                                 break;
                             } else {
-                                //pomocnahodnota--;
+                                pomocnahodnota--;
                             }
                         }
                         cil.get(Cylindr - pomocnahodnota).setMaterial(materials[new_val.intValue()]);
